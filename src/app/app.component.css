@@ -1,0 +1,10 @@
+.example-container .mat-form-field + .mat-form-field {
+    margin-left: 8px;
+  }
+  :root {
+    --primary: #369c38;
+    --secondary: #132A13;
+    --padding: 15px;
+    --cinza : #405040;
+    --cinza-claro: #dedede;
+  }
