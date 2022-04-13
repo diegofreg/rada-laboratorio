@@ -1,0 +1,10 @@
+<p style="font-size: 20px;">Há campos para serem preenchidos</p>
+<ul>
+	<li *ngFor="let  obj of data" style="margin-bottom: 15px;">
+	<span style="font-weight: bold;">{{obj.aba}}</span> 
+		<ol *ngFor="let campos of obj.campos">preencha o campo <span style="color: red;">{{campos}}</span></ol>
+	</li>
+	<p style="margin-top: 20px">
+	Depois de preencher , certifique de clicar em <span style="font-weight: bold;font-size: 17px">salvar</span>
+	</p>
+</ul>

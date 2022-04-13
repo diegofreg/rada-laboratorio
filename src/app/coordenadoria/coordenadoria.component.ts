@@ -4,6 +4,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import {ThemePalette} from '@angular/material/core';
+import { Observable } from 'rxjs/Observable';
+import { ThemeService } from '../core/services/theme.service';
 
 
 
@@ -27,7 +29,15 @@ interface diego {
 })
 export class CoordenadoriaComponent implements OnInit {
 
-  
+  isDarkTheme!: Observable<boolean>;
+
+  ngOnInit() {
+    this.isDarkTheme = this.themeService.isDarkTheme;
+  }
+
+  toggleDarkTheme(checked: boolean) {
+    this.themeService.setDarkTheme(checked);
+  }
   
 
 
@@ -35,12 +45,19 @@ export class CoordenadoriaComponent implements OnInit {
     {value: 'DF', viewValue: 'Brasilia'},
     {value: 'MG', viewValue: 'Minas'},
     {value: 'RJ', viewValue: 'Cabo Frio'},
+    {value: 'MT', viewValue: 'Mato Grosso'},
+    
+    
+    
   ];
 
   foodss: diego[] = [
     {value: 'DF', viewValue: 'Brasilia00000000'},
     {value: 'MG', viewValue: 'Minas'},
     {value: 'RJ', viewValue: 'Cabo Frio'},
+    {value: 'MT', viewValue: 'Mato Grosso'},
+    {value: 'CS', viewValue: 'Mato '},
+    {value: 'CS', viewValue: 'cs '},
   ];
 
 
@@ -50,18 +67,13 @@ export class CoordenadoriaComponent implements OnInit {
 
 
   constructor(
-
+    private themeService: ThemeService
    
     
   ) { 
 
    
 
-  }
-
-  
-
-  ngOnInit(): void {
   }
 
 }

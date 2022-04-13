@@ -1,5 +1,112 @@
+<section [ngClass]="{'dark-theme': isDarkTheme | async}" >
+    <div class="header">
+        <header>
+            <div>
+                <img class="card-img-top" src="/assets/mini.jpg">
+                <mat-slide-toggle [checked]="isDarkTheme | async">Tema Escuro</mat-slide-toggle>
+            </div>
+            <div>
+                <h1>Termo de Coleta</h1>
+                <input type="text" disabled value="{{ dataAtual | date:'dd/MM/yyyy'}}" class="input_header"/>
+            </div>
+            <div>
+                <h2>DIEGO APARECIDO MUNIZ DOS SANTOS</h2>
+                <mat-form-field appearance="outline" value = 'option' style="min-width: 30%;">
+                 <mat-label>Local</mat-label> 
+                 <mat-select>
+                    <mat-option value="ESCRITÓRIO	SECCIONAL BELO HORIZONTE">
+                        ESCRITÓRIO SECCIONAL BELO HORIZONTE
+                    </mat-option>
+                    <mat-option value='COORDENADORIA REGIONAL PATOS DE MINAS'>
+                        COORDENADORIA REGIONAL PATOS DE MINAS
+                      </mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+        </header>
+    </div>
+		<main class="main">
+			<mat-drawer-container class="example-container">
+				<!-- <mat-drawer #drawer opened="true" class="example-sidenav" mode="side">
+					<main>
+						<mat-expansion-panel style="padding: 0 24px;">
+							<mat-expansion-panel-header>
+								<mat-panel-title>
+									Menu
+								</mat-panel-title>
+							</mat-expansion-panel-header>
+							<div *ngFor="let tab of tabs">
+								<mat-expansion-panel *ngIf='tab.isExpansion,else normalTab'>
+									<mat-expansion-panel-header>
+										<mat-panel-title>
+											{{tab.nameTab}}
+										</mat-panel-title>
+									</mat-expansion-panel-header>
+									<div *ngFor="let children of tab.children">
+										<div class="normal_tab" (click)="mudandoTela(children.nameTab)">
+											{{children.nameTab}}
+										</div>
+									</div>
+								</mat-expansion-panel>
+								<ng-template #normalTab>
+									<div class="normal_tab" (click)="mudandoTela(tab.nameTab)">{{tab.nameTab}}</div>
+								</ng-template>
+							</div>
+						</mat-expansion-panel>
+					</main>
+				</mat-drawer> -->
+				<div [ngSwitch]="clickedTab">
+					<aside  class="example-sidenav-content" *ngSwitchCase="'Termo de Coleta'">
+						<app-coordenadoria></app-coordenadoria>
+					</aside>
+					<aside  class="example-sidenav-content" *ngSwitchCase="'cliente'">
+						1
+					</aside>
+					<aside  class="example-sidenav-content" *ngSwitchCase="'Entrada no Laboratório'">
+						2
+					</aside>
+					<aside  class="example-sidenav-content" *ngSwitchCase="'Grupo de Análise'">
+						3
+					</aside>
+					<aside  class="example-sidenav-content" *ngSwitchCase="'Material de Análise'">
+						4
+					</aside>
+				</div>
+			</mat-drawer-container>
+		</main>
+
+</section>
 
 
-<app-coordenadoria>   </app-coordenadoria>
 
- 
+
+
+
+    
+    
+   
+
+    
+  
+    
+
+
+       
+        
+        
+    
+
+
+    
+
+    
+
+
+        
+
+
+          
+           
+                  
+           
+           

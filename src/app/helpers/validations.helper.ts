@@ -9,6 +9,8 @@ export class Validador{
 
 
     static ValidaCpf(controle: AbstractControl) {
+       console.log("validacpf")
+
         const cpf = controle.value;
     
         let soma: number = 0;
@@ -48,6 +50,7 @@ export class Validador{
           if (resto != parseInt(cpf.substring(10, 11))) valido = false;
           valido = true;
         }
+    console.log (valido)
     
         if (valido) return null;
     

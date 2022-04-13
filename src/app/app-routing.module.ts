@@ -4,6 +4,7 @@ import { CoordenadoriaComponent } from './coordenadoria/coordenadoria.component'
 import { DescricaodaacaoComponent } from './descricaodaacao/descricaodaacao.component';
 import { EnvolvidosComponent } from './envolvidos/envolvidos.component';
 import { FiscalizadoComponent } from './fiscalizado/fiscalizado.component';
+import { ProdutoagricolaComponent } from './produtoagricola/produtoagricola.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
 {path: 'descricaodaacao', component:DescricaodaacaoComponent},
 {path:'envolvidos', component:EnvolvidosComponent},
 {path:'fiscalizado', component:FiscalizadoComponent},
-
+{path:'produtoagricola',component:ProdutoagricolaComponent}
 ];
 
 

@@ -1,1 +1,118 @@
-<p>produtoagricola works!</p>
+<form [formGroup]="appForm" name="myForm" class="example-form">
+    <div class="container_inputs">
+        <div style="display: flex;align-items: center;justify-content: space-between;">
+            <mat-form-field (click)="habilitandoInput()" class="example-full-width" appearance="fill" style="width: 30%;">
+                <mat-label>Cultura</mat-label>
+                <input type="text"
+                        placeholder="Digite"
+                        aria-label="Cultura"
+                        matInput
+                        formControlName ='cultura'
+                        [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.nomeCultura" (click)="buscandoVariedade(option.idCultura)">
+                    {{option.nomeCultura}}
+                    </mat-option>
+                </mat-autocomplete>
+<mat-error *ngIf="validar('cultura')">campo necessario</mat-error>
+            </mat-form-field>
+            <div style="width: 70%;display: flex;align-items: center;justify-content: flex-end;">
+
+            <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Variedade</mat-label>
+                <input type="text"
+                        placeholder="Digite"
+                        aria-label="variedade"
+                        matInput
+                        formControlName ='variedade'
+                        [matAutocomplete]="auto2">
+                <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete">
+                    <mat-option *ngFor="let variedade  of variedades" [value]="variedade.nomeVariedade">
+                    {{variedade.nomeVariedade}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+               <mat-form-field appearance="fill" class="inputFieldMed">
+                    <mat-label>Quantidade Enviada (Gramas)</mat-label>
+                    <input type="text" matInput name="" autocomplete="off">
+                    <mat-hint></mat-hint>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputFieldMin">
+                    <mat-label>Quantidade Enviada (Unidades)</mat-label>
+                    <input  type="text" autocomplete="off" matInput #postalCode
+                        maxlength="11">
+                    <mat-hint></mat-hint>
+                </mat-form-field>
+            </div>
+        </div>
+        <div style="display: flex;align-items: center;flex-wrap: wrap;">
+            <div *ngFor="let lacre of lacreList, let i = index">
+                <mat-form-field appearance="fill" class="inputFieldMin" style="width: 30%;">
+                    <mat-label>Numero do Lacre</mat-label>
+                    <input [formControl]="lacre.numerolacre" (blur)="verificandoLacre(i)" type="text" autocomplete="off" matInput #postalCode
+                        maxlength="11">
+                    <mat-hint></mat-hint>
+          <mat-error *ngIf="lacre.numerolacre.invalid">campo necessario</mat-error>
+                </mat-form-field>
+            <mat-icon (click)="apagarLacre(lacre)"  *ngIf="i == ultimoIndex && i != 0" class="icon">close</mat-icon>
+                <mat-icon class="icon" (click)="novoLacre()" *ngIf="i == ultimoIndex">add</mat-icon>
+            </div>
+        </div>
+        <div>
+            <div style="display: flex;align-items: center;justify-content: flex-start;">
+                <div style="display: flex;align-items: center;">
+                    <mat-radio-group formControlName="agro" aria-label="Selecione uma opção" class="padding-bottom-20" style="width: 50%;margin: 10px 0px 10px 15px;" >
+                        
+                        <mat-label class="radioLabel" >Foi usado algum agrotóxico?</mat-label>
+                    
+                        <mat-radio-button value="show" class="padding-rigth-10">Sim</mat-radio-button>
+                        <mat-radio-button value="none" checked>Não</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isClickedYes == 'show'" style="display: flex;align-items: center;justify-content: space-between;">
+            <mat-form-field appearance="fill" style="width: 30%;">
+                <mat-label>Qual?</mat-label>
+                <input formControlName="qual" matInput value="" required>
+          <mat-error *ngIf="validar('qual')">campo necessario</mat-error>
+            </mat-form-field>
+            <div style="width: 70%;display: flex;align-items: center;justify-content: flex-end;">
+                <mat-form-field appearance="fill" class="inputFieldMin">
+                    <mat-label >
+                        Datas da Aplicaçãos
+                    </mat-label>
+                    <input  id="data" required matInput [matDatepicker]="picker2">
+                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="inputFieldMin">
+                    <mat-label>Onde adquiriu?</mat-label>
+                    <input  type="text" name="" id="" matInput placeholder="Ex.0000000">
+                    <mat-hint></mat-hint>
+                </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="isClickedYes == 'show'" style="display: flex;align-items:center;justify-content: space-between;">
+            <mat-form-field appearance="fill" class="inputFieldMed" style="width: 30%;">
+                <mat-label>Quem indicou o agrotóxico</mat-label>
+                <input type="text" name="bair" id="Bairro" matInput placeholder="Ex.Gama">
+                <mat-hint></mat-hint>
+            </mat-form-field>
+            <div style="width: 70%;display: flex;align-items: center;justify-content: flex-end;">
+            </div>
+        </div>
+        <div>
+             <mat-form-field appearance="fill" style="width:100%">
+                    <mat-label>Outras informações</mat-label>
+                    <textarea matInput></textarea>
+             </mat-form-field>
+        </div>
+        <div>
+            <button mat-flat-button color="primary" class="button" type="reset" style="margin-left: 15px;">Salvar</button>
+        </div>
+    </div>
+</form>
+
+

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Client } from 'src/models/client';
 
 import { HttpService } from './http.service';
 
@@ -16,10 +17,15 @@ interface AddressI{
 }
 
 
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class ConsultaCepService {
+  storeClient(client: Client) {
+    throw new Error('Method not implemented.');
+  }
 
   constructor(private http: HttpService) { }
 
@@ -28,7 +34,7 @@ export class ConsultaCepService {
   public getAddress(cep: string) {
     return this.http.get<AddressI>(`https://viacep.com.br/ws/${cep}/json/`);
   }
-}
+
   
 
-
+}
