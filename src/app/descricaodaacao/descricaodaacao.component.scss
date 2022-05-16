@@ -2,7 +2,6 @@
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
 }
@@ -21,4 +20,24 @@ mat-form-field {
   display: flex;
   align-items: center;
   width: 50%;
+}
+
+@media (max-width: 1000px) {
+	.container_inputs > div {
+		flex-wrap: wrap;
+	}
+	.u{
+		display: flex !important;
+		justify-content: center !important;
+	}
+	.u > div {
+		flex-wrap: wrap;
+		width: 100% !important;
+	}
+	.u mat-form-field{
+		width: 100% !important;
+	}
+	mat-radio-group{
+		margin-left: 15px !important;
+	}
 }

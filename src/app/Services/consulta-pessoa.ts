@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Client } from 'src/models/client';
-
 import { HttpService } from './http.service';
 
-
+const host = "localhost:8081";
 interface CepEnderecoPessoa {
     idCep: number;
     numeroCep: string;
@@ -11,8 +11,6 @@ interface CepEnderecoPessoa {
     nomeBairro: string;
     municipio: string;
     ativo: boolean;
-
-
 }
 
 interface EnderecoPessoa {
@@ -37,7 +35,7 @@ interface Pessoa {
 
 
 interface Campos {
-    cpfcnpj: string;
+    numeroCpfCnpj: string;
     nomeprodutor: string;
     nomefantasia: string;
     cep: string;
@@ -77,6 +75,19 @@ interface Masp1 {
     }
 
 }
+
+            interface acao1{
+                dataHoraAcao:Date;
+                nomeLocal:string;
+                acaoTermo:string;
+                idLocalSidrago:number;
+                quantidadeAmostra:number;
+                tipoLocal:string               
+
+
+
+
+            }
 interface termoSalvar {
     idPessoa: string;
     nomePessoa: string;
@@ -140,33 +151,45 @@ export class ConsultaPessoaService {
     }
 
     public getPessoa(cpfCnpj: string) {
-        return this.http.get<Pessoa>(`http://localhost:8080/rada-laboratorios/pessoa/buscarPorCpfCnpj/${cpfCnpj}`);
+        //return this.http.get<Pessoa>(`${environment.Api}/rada-laboratorios/pessoa/buscarPorCpfCnpj/${cpfCnpj}`);
+        return this.http.get<Pessoa>(`http://localhost:8081/rada-laboratorios/pessoa/buscarPorCpfCnpj/${cpfCnpj}`);
 
     }
     public postPessoaenvolvidos(termoSalvar: string) {
 
-        return this.http.post<termoSalvar>('http://localhost:8080/rada-laboratorios/termoColetaEnvolvidos/gravar', termoSalvar);
-
+        //return this.http.post<termoSalvar>(`${environment.Api}/rada-laboratorios/termoColetaEnvolvidos/gravar`, termoSalvar);
+        return this.http.post<termoSalvar>(`http://localhost:8081/rada-laboratorios/termoColetaEnvolvidos/gravar`, termoSalvar);
     }
 
 
     public postPessoacpf(pessoacpf: string) {
-        return this.http.post<Campos>(`http://localhost:8080/rada-laboratorios/termoColeta/gravarTermoColeta`, pessoacpf)
+        return this.http.post<Campos>(`http://localhost:8081/rada-laboratorios/termoColeta/gravarTermoColeta`, pessoacpf)
+        //return this.http.post<Campos>(`${environment.Api}/rada-laboratorios/termoColeta/gravarTermoColeta`, pessoacpf)
     }
 
     public getPessoamasp(numeromasp: string) {
-
-        return this.http.get<Masp1>(`http://localhost:8080/rada-laboratorios/pessoa/buscarPorMasp/${numeromasp}`);
+        return this.http.get<Masp1>(`http://localhost:8081/rada-laboratorios/pessoa/buscarPorMasp/${numeromasp}`);
+        //return this.http.get<Masp1>(`${environment.Api}/rada-laboratorios/pessoa/buscarPorMasp/${numeromasp}`);
     }
 
     public getCultura() {
-
-        return this.http.get<any>(`http://localhost:8080/rada-laboratorios/cultura/listarCulturasAtivas `);
+        return this.http.get<any>(`http://localhost:8081/rada-laboratorios/cultura/listarCulturasAtivas `);
+        //return this.http.get<any>(`${environment.Api}/rada-laboratorios/cultura/listarCulturasAtivas `);
     }
 
     public getVariedadePelaCultura(culturaId:any) {
+        return this.http.get<any>(`http://localhost:8081/rada-laboratorios/cultura/listarVariedadesPorIdCultura/${culturaId} `);
+        //return this.http.get<any>(`${environment.Api}/rada-laboratorios/cultura/listarVariedadesPorIdCultura/${culturaId} `);
+    }
+    public postacao(acao: string){
+        //return this.http.post<acao1>(`${environment.Api}/rada-laboratorios/termoColetaAcao/gravar`, acao);
+        return this.http.post<acao1>('http://localhost:8081/rada-laboratorios/termoColetaAcao/gravar', acao);
 
-        return this.http.get<any>(`http://localhost:8080/rada-laboratorios/cultura/listarVariedadesPorIdCultura/${culturaId} `);
+
+    }
+    public envolvidos(acao: string){
+        //return this.http.post<any>(`${environment.Api}/rada-laboratorios/termoColetaEnvolvidos/gravar`, acao);
+        return this.http.post<any>('http://localhost:8081/rada-laboratorios/termoColetaEnvolvidos/gravar', acao);
     }
 }
 

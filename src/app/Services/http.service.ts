@@ -5,8 +5,9 @@ import { Observable } from "rxjs";
 @Injectable()
 export class HttpService {
   
-  post<T>(arg0: string, pessoacpf: string) {
-      throw new Error('Method not implemented.');
+  post<T>(arg0: string, pessoacpf: string): Observable<any> {
+      // throw new Error('Method not implemented.');
+      return this.httpClient.post<any>(arg0,pessoacpf, { responseType: "json" })
   }
   constructor(private httpClient: HttpClient) {}
 

@@ -1,11 +1,11 @@
-export class TermoColeta {
-    id!: number;
-    dataHoraAcao!: Date;
+export class 
+TermoColeta {
+    data!: Date;
     acaoTermo!: string;
-    quantidadeAmostras!: number;
-    idPropriedadeSidagro!: number;
+    quantidadeAmostras!: string;
+    idLocalSidagro!: string;
     nomeLocal!: string;
     tipoLocal!: string;
-    termoColeta!: number;
+    termoColeta!: any;
   }
   

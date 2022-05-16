@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 import { TermoColeta } from 'src/models/termoColetaAcao';
 import {FormsService} from '../forms.service';
-
+import { HttpService } from '../Services/http.service';
 
 interface Outros {
   id:number
   nome: string
-  
   
 }
 
@@ -35,6 +36,7 @@ export class DescricaodaacaoComponent implements OnInit {
 
 
   private _appForm!: FormGroup;
+  
   public get appForm(): FormGroup {
     return this._appForm;
   }
@@ -43,11 +45,10 @@ export class DescricaodaacaoComponent implements OnInit {
   }
 
   local1: Local[] = [
-    {value: 'DF', viewValue: 'Cantinho dos Bebuns.'},
-    {value: 'MG', viewValue: 'Quintal da Boa Ventura '},
-    {value: 'RJ', viewValue: 'Flor-de-lis'},
+    {value: '10', viewValue: 'Cantinho dos Bebuns.'},
+    {value: '10', viewValue: 'Quintal da Boa Ventura '},
+    {value: '10', viewValue: 'Flor-de-lis'},
     {value: 'Outros', viewValue: 'Outros'},
-  
   ];
 	
 
@@ -57,7 +58,7 @@ export class DescricaodaacaoComponent implements OnInit {
 		acao: ['', Validators.required],
 		localOutros: [''],
 		local: ['', Validators.required],
-		tabAtual:['descrição da ação'],
+		tabAtual:['Descrição da ação'],
 	});   
 
 	get local() {
@@ -89,7 +90,7 @@ export class DescricaodaacaoComponent implements OnInit {
     },
   ]
 
-  constructor(private formBuilder: FormBuilder, private formService:FormsService) {}
+  constructor(private formBuilder: FormBuilder, private formService:FormsService, private http: HttpService,private _snackBar: MatSnackBar) {}
 
   openoutros1(){
   
@@ -103,26 +104,40 @@ export class DescricaodaacaoComponent implements OnInit {
     this.appForm.reset();
   }
 
-  // storeClient() {
-	// verificar se os campos estão preenchidos
-  //   console.log("Entrando no salvar")
-  //   var termoSalvar = new TermoColeta();
-  //   termoSalvar.acaoTermo = 'F';
-  //   termoSalvar.atualizacao = new Date();
-  //   termoSalvar.nomeProdutor = 'Diego';
-  //   this.http.post('http://localhost:8080/rada-laboratorios/termoColeta/gravarTermoColeta',termoSalvar)
-  //   .subscribe(
-  //     resultado => {
-  //       console.log(resultado)
-  //     },
-  //     erro => {
-  //       if(erro.status >= 400) {
-  //         console.log(erro);
-  //       }
-  //     }
-  //   );
+  storeClient() {
+    
+    if (!this.descricaodaacao.valid) {
 
-  //   console.log("Passou salvar")
+			Object.keys(this.descricaodaacao.controls).forEach(field => { 
+			  const control = this.descricaodaacao.get(field);            
+			  control?.markAsTouched({ onlySelf: true });      
+			});
+
+    }else{
+    
+      const acaoSalvar:any = new TermoColeta()
+      acaoSalvar.nomeLocal=  "teste" ;
+      acaoSalvar.acaoTermo =  "F" ;
+      acaoSalvar.data = this.dataAtualFormatada(this.descricaodaacao.get('data')?.value) + this.descricaodaacao.get('horas')?.value;
+      acaoSalvar.idLocalSidagro =  "10" ;
+      acaoSalvar.quantidadeAmostras =  "1"
+      acaoSalvar.tipoLocal = "1";
+      acaoSalvar.termoColeta = {
+        id: this.formService.getNumeroTermo()
+      }
+      console.log(acaoSalvar)
+      this.http.post('http://localhost:8081/rada-laboratorios/termoColetaAcao/gravar',acaoSalvar)
+      //this.http.post(`${environment.Api}/rada-laboratorios/termoColetaAcao/gravar`,acaoSalvar)
+      .subscribe(
+        resultado => {
+          this._snackBar.open('Salvo com sucesso!', 'ok')
+        },
+        erro => {
+          this._snackBar.open('Erro ao Salvar!', 'ok')
+        }
+      );
+    }
+}
 
   ngOnInit(): void {
 		this.descricaodaacao.get('local')?.valueChanges.subscribe(value => {
@@ -138,4 +153,14 @@ export class DescricaodaacaoComponent implements OnInit {
 
 		this.formService.setData(this.descricaodaacao)
   }
+
+ dataAtualFormatada(data:any){
+        let dia  = data.getDate().toString()
+        const diaF = (dia.length == 1) ? '0'+dia : dia
+        const mes  = (data.getMonth()+1).toString()
+        const mesF = (mes.length == 1) ? '0'+mes : mes
+        const anoF = data.getFullYear();
+    return diaF+"/"+mesF+"/"+anoF;
+}
+
 }

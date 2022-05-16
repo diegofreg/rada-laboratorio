@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  Api: 'http://rada.homologacao.prodemge.gov.br/rada-laboratorios/'
 };

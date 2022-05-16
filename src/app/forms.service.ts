@@ -6,15 +6,28 @@ import { Injectable } from '@angular/core';
 export class FormsService {
 
 	forms:any = []
-
+	numeroTermo : number = 0
+	
   constructor() { }
 	
 	getData(){
 		return this.forms
 	}
 
+	getNumeroTermo (){
+		return this.numeroTermo
+	}
+
+	setNumeroTermo (numero:number){
+		this.numeroTermo = numero
+	}
+
 	setData(form:any){
-		this.forms.push(form)
+		if(this.forms.length >= 4){
+			return
+		}else{
+			this.forms.push(form)
+		}
 	}
 
 }

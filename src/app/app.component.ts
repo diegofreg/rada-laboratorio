@@ -1,5 +1,6 @@
 import { Component} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { environment } from 'src/environments/environment';
 import { ThemeService } from './core/services/theme.service';
 
 
@@ -13,17 +14,19 @@ import { ThemeService } from './core/services/theme.service';
 export class AppComponent {
   isDarkTheme!: Observable<boolean>;
   dataAtual!: Date;
+	
   title = 'termo-coleta';
-  clickedTab = 'Termo de Coleta'
+//   clickedTab = 'Termo de Coleta'
+  clickedTab = 'Registro de Amostra'
 	tabs = [
 		{
-			nameTab:'cliente'
+			nameTab:'Resultado da Análise'
 		},
 		{
 			nameTab:'Termo de Coleta'
 		},
 		{
-			nameTab:'Entrada no Laboratório'
+			nameTab:'Registro de Amostra'
 		},
 		{
 			nameTab:'Cadastros',
@@ -42,13 +45,17 @@ export class AppComponent {
   constructor(private themeService: ThemeService) { }
 
   ngOnInit() {
+	  console.log(environment.production)
     this.isDarkTheme = this.themeService.isDarkTheme;
     this.dataAtual =  new Date();
   }
 
 	mudandoTela(nomeTela:string){
-		console.log(nomeTela)
 		this.clickedTab = nomeTela
 	}
+
+  toggleDarkTheme(checked: boolean) {
+    this.themeService.setDarkTheme(checked);
+  }
 
 }

@@ -6,6 +6,9 @@ import { ConsultaPessoaService } from '../Services/consulta-pessoa';
 import { TermoColeta } from 'src/models/termoColeta';
 import { HttpClient } from '@angular/common/http';
 import {FormsService} from '../forms.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
+
 
 interface Food {
   value: string;
@@ -18,6 +21,9 @@ interface Food {
   styleUrls: ['./fiscalizado.component.scss']
 })
 export class FiscalizadoComponent implements OnInit {
+
+
+  
   
   client: Client = new Client();
 
@@ -42,19 +48,22 @@ export class FiscalizadoComponent implements OnInit {
     private appPessoa: ConsultaPessoaService,
     //private enviar: DataFormService,
     private http: HttpClient,
-		private formService: FormsService
+		private formService: FormsService,
+    private _snackBar: MatSnackBar
   ) {
 
 		this.appForm = this.formBuilder.group({
 			nomeprodutor : ['',Validators.required],
-			cep : [ '',[Validators.required, Validators.minLength(9), Validators.maxLength(9)]], 
+			cep : [ '',[Validators.required, Validators.minLength(8), Validators.maxLength(9)]], 
 			tabAtual:['Identificação do fiscalizado'],
 			street: "",
+      nomeFantasia: [""],
 			comp: "",
 			bair: "",
 			local: "",
 			ufc: "",
 			cpf: [''],
+      numerocoleta:['', Validators.required]
 		}) 
   }
 
@@ -104,17 +113,28 @@ export class FiscalizadoComponent implements OnInit {
 
     }else{
     
-      const termoSalvar = new TermoColeta()
-      termoSalvar.acaoTermo = 'F';
-      termoSalvar.atualizacao = new Date();
-      termoSalvar.nomeProdutor = 'Diego';
-      this.http.post('http://localhost:8080/rada-laboratorios/termoColeta/gravarTermoColeta',termoSalvar)
+		const termoSalvar = new TermoColeta();
+
+		termoSalvar.pessoaFiscalizada = 45
+		termoSalvar.numeroCpfCnpj = this.appForm.get('cpf')?.value as string
+		termoSalvar.nomeProdutor = this.appForm.get('nomeprodutor')?.value as string
+		termoSalvar.nomeFantasia = this.appForm.get('nomeFantasia')?.value as string
+		termoSalvar.enderecoFiscalizado = null
+    termoSalvar.nrTermoColeta = this.appForm.get('numerocoleta')?.value as string
+		termoSalvar.dataTermo = new Date()
+		termoSalvar.usuarioAtualizou = null
+		termoSalvar.atualizacao = new Date()
+
+      //this.http.post(`${environment.Api}/rada-laboratorios/termoColeta/gravarTermoColeta`,termoSalvar)
+      this.http.post('http://localhost:8081/rada-laboratorios/termoColeta/gravarTermoColeta',termoSalvar)
       .subscribe(
-        resultado => {
-          console.log(resultado)
+       (resultado:any) => {
+          this._snackBar.open('Salvo com sucesso!', 'ok')
+          this.formService.setNumeroTermo(resultado.id)
         },
         erro => {
           if(erro.status >= 400) {
+            this._snackBar.open('erro ao salvar!', 'ok')
             console.log(erro);
           }
         }

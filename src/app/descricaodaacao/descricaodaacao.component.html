@@ -1,6 +1,6 @@
 <form [formGroup]="descricaodaacao" (ngSubmit)="onSubmit()" name="myForm" class="example-form">
   <div class="container_inputs">
-    <div>
+    <div class="u">
       <mat-form-field appearance="fill" class="inputFieldMin" style="width: 50%;">
         <mat-label required>
           Data
@@ -9,7 +9,7 @@
         <mat-datepicker-toggle matSuffix [for]="picker2">
         </mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
-        <mat-error *ngIf="data?.hasError('required')">necessario preencher</mat-error>
+        <mat-error *ngIf="data?.hasError('required')">Campo obrigatório</mat-error>
       </mat-form-field>
       <div class="wrapper_leftside">
         <mat-form-field appearance="fill" class="inputFieldMed" style="width: 35%;">
@@ -18,17 +18,17 @@
         </mat-label>
         <input formControlName= "horas" id="horas" name="myName" ng-model="myName" required matInput type="time"
           value=`${data.mission.loadDate.getHours()}:${data.mission.loadDate.getMinutes()}`>
-        <mat-error  *ngIf="horas?.hasError('required')" >necessario preencher</mat-error>
+        <mat-error  *ngIf="horas?.hasError('required')" >Campo obrigatório</mat-error>
       </mat-form-field>
         <mat-radio-group style="width: 35%;" formControlName="acao">
           <mat-label class="radioLabel">Ação*</mat-label>
-          <mat-radio-button value="Certificação" class="radios"aria-label="1">Certificação</mat-radio-button>
-          <mat-radio-button value="Fiscalização" class="radios">Fiscalização</mat-radio-button>
+          <mat-radio-button value="I" class="radios"aria-label="1">Certificação</mat-radio-button>
+          <mat-radio-button value="F" class="radios">Fiscalização</mat-radio-button>
         <!-- <mat-error *ngIf="acao?.hasError('required')">necessario escolher</mat-error> -->
         </mat-radio-group>
       </div>
     </div>
-    <div class="wrapper_leftside">
+    <div class="wrapper_leftside u">
       <mat-form-field appearance="fill" class="inputFieldMed" style="width: 50%;">
         <mat-label>Local</mat-label>
         <mat-select formControlName = 'local'>
@@ -36,7 +36,7 @@
             {{food.viewValue}}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="local?.hasError('required')">necessario escolher</mat-error>
+        <mat-error *ngIf="local?.hasError('required')">Campo obrigatório</mat-error>
       </mat-form-field>
       <div>
         <mat-form-field *ngIf="localselecionado === 'Outros'" appearance="fill" class="inputFieldMed" style="width:97%;" >
@@ -45,13 +45,17 @@
           </mat-label>
           <input  formControlName = 'localOutros' type="text" name="numerodacoleta" required matInput
             placeholder="Novo Local">
-        <mat-error *ngIf="localOutros?.hasError('required')">necesssario preencher</mat-error>
+        <mat-error *ngIf="localOutros?.hasError('required')">Campo obrigatório</mat-error>
         </mat-form-field>
-        <button mat-flat-button color="primary" class="button" type="reset" style="margin: 0px 15px 0px 15px;">Salva</button>
       </div>
     </div>
   </div>
 </form>
+<hr>
+<div style="width: 100%;display: flex;justify-content: flex-end;">
+  <button mat-flat-button color="primary" class="button" (click)="storeClient()" type="button" style="margin: 0px 15px 0px 15px;" >Salvar</button>
+</div>
+
         
        
 

@@ -22,7 +22,8 @@ import { ThemeService } from './core/services/theme.service';
 import { StoreModule } from '@ngrx/store';
 import { DialogErrorsComponent } from './modal/dialog-errors/dialog-errors.component';
 import {mudandoValor} from './store/finalizar-reducer';
-
+import { RegistroAmostraComponent } from './registro-amostra/registro-amostra.component';
+import { ReturnCodeDialogComponent } from './return-code-dialog/return-code-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,10 @@ import {mudandoValor} from './store/finalizar-reducer';
     EnvolvidosComponent,
     FiscalizadoComponent,
     ToolbarComponent,
-    DialogErrorsComponent
+    DialogErrorsComponent,
+    RegistroAmostraComponent,
+    ReturnCodeDialogComponent,
+    
 
   ],
   imports: [
@@ -45,7 +49,7 @@ import {mudandoValor} from './store/finalizar-reducer';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    CommonModule,
+    CommonModule,   
     MaterialModule,
     StoreModule.forRoot({lacreStatus:mudandoValor})   
   ],

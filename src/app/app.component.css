@@ -1,4 +1,3 @@
-
 .toolbar{
   color: d55Color;
   display: flex;
@@ -23,7 +22,7 @@ section .header{
 }
 
 header{
-	height: 100%;
+	height:calc(100vh - 70vh);
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -97,7 +96,7 @@ div.input {
 
 .example-sidenav-content {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
 }
 .example-container{
   width: 100%;
@@ -126,11 +125,7 @@ p{
 }
 
 .main{
-	height:calc(100vh - 40vh);
-}
-
-.header{
-	height:calc(100vh - 60vh);
+	height:calc(100vh - 30vh);
 }
 
 .normal_tab{
@@ -140,4 +135,13 @@ p{
 	border: 1px solid #d3d3d3;
 	border-radius: 10px;
 	cursor: pointer;
+}
+
+@media (max-width: 1000px) {
+	header{
+		height:calc(100vh - 80vh);
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
 }

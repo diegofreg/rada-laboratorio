@@ -8,12 +8,14 @@ import {MatDialog} from '@angular/material/dialog';
 import {DialogErrorsComponent} from '../modal/dialog-errors/dialog-errors.component';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 export interface TestemunhaProps {
   id: number,
   nome: string
   identidade: string
-  
+
 }
 
 let formData = {
@@ -99,10 +101,6 @@ export class EnvolvidosComponent implements OnInit {
     },
   ]
 
-
-
-
-  
   constructor(
 
     private Masp1: ConsultaPessoaService,   
@@ -110,7 +108,9 @@ export class EnvolvidosComponent implements OnInit {
     private http: HttpClient,
 		private formService: FormsService,
 		public dialog:MatDialog,
-		private store: Store<{ lacreStatus: any}>
+		private store: Store<{ lacreStatus: any}>,
+		private pessoaService : ConsultaPessoaService,
+		private _snackBar: MatSnackBar
   ) {
 
 		this.lacreEstaValidado = store.select('lacreStatus')
@@ -121,9 +121,9 @@ export class EnvolvidosComponent implements OnInit {
       cargo: ['', Validators.required],
       responsavel: ['', Validators.required],
       identidade: ['', Validators.required],
-			tabAtual:['identificação dos envolvidos'],
-			assinado:[false],
-			adicionados:[this.numeroDeTestemunhas]
+	  tabAtual:['identificação dos envolvidos'],
+	  assinado:[false],
+	  adicionados:[this.numeroDeTestemunhas]
     });   
   }
 
@@ -265,14 +265,14 @@ updateErrorList(){
 				if(this.errosCamposEnvolvidos <= 0){
 					return
 				}else{
-					this.errorsList.push({aba:'envolvidos', campos:this.errosCamposEnvolvidos})
+					this.errorsList.push({aba:'Envolvidos', campos:this.errosCamposEnvolvidos})
 				}
 
 				break
 				case "Descrição do Produto Agrícola":
 
-				const lacreInputs = item.value.numerolacre
-				const lacre = lacreInputs.filter((item:any) => item.numerolacre.hasError('required'))
+				const lacreInputs = item.value.nrLacre
+				const lacre = lacreInputs.filter((item:any) => item.nrLacre.hasError('required'))
 					for(let obj in item.value){
 						item.get(obj)?.valid ? true : this.errosCamposProdAgri.push(obj)
 					}
@@ -284,12 +284,12 @@ updateErrorList(){
 
 					this.errorsList.push({aba:'Descrição do Produto Agrícola', campos:this.errosCamposProdAgri})
 				break
-				case "descrição da ação":
+				case "Descrição da ação":
 					for(let obj in item.value){
 					item.get(obj)?.valid  && this.lacreEstaValidado ? true : this.errosCamposAct.push(obj)
 				}
 
-				this.errorsList.push({aba:'descrição da ação', campos:this.errosCamposAct})
+				this.errorsList.push({aba:'Descrição da ação', campos:this.errosCamposAct})
 				break
 
 				case "Identificação do fiscalizado":
@@ -328,31 +328,32 @@ storeClient() {
 
 		var termoSalvar = new TermoColeta();
 
-		termoSalvar.numeromasp = this.appForm.get('numeromasp')?.value as number
-		termoSalvar.nome = this.appForm.get('nome')?.value as string
-		termoSalvar.cargo = this.appForm.get('cargo')?.value as string
-		termoSalvar.representante = this.appForm.get('nome1')?.value as string
-		termoSalvar.identidade = this.appForm.get('identidade')?.value as string
-		termoSalvar.assinado = !this.isOpentestemunha
-		termoSalvar.testemunhas = []
-
-		for (const testemunha of this.testemunhas.filter(t => t.nome !== '')) {
-			termoSalvar.testemunhas.push(testemunha)
+		termoSalvar.numeroMaspFiscal = this.appForm.get('numeromasp')?.value as number
+		termoSalvar.nomeFiscal = this.appForm.get('nome')?.value as string
+		termoSalvar.cargoFiscal = this.appForm.get('cargo')?.value as string
+		termoSalvar.nomeResponsavel = this.appForm.get('nome1')?.value as string
+		termoSalvar.idPessoaFiscalSidagro = this.appForm.get('identidade')?.value as string
+		termoSalvar.termoColeta = {
+			id:1
 		}
 
-		console.log({ dados: termoSalvar })
+	//	for (const testemunha of this.testemunhas.filter(t => t.nome !== '')) {
+	//		termoSalvar.testemunhas.push(testemunha)
+	//	}
+
+	//	console.log({ dados: termoSalvar })
 		// if (!termoSalvar.assinado && termoSalvar.testemunhas.length < 1) throw new Error('Nenhuma testemunha inserida')
 
 
-
-		this.http.post('http://localhost:8080/rada-laboratorios/termoColetaEnvolvidos/gravar',termoSalvar)
+		//this.http.post(`${environment.Api}/rada-laboratorios/termoColetaEnvolvidos/gravar`,termoSalvar)
+		this.http.post('http://localhost:8081/rada-laboratorios/termoColetaEnvolvidos/gravar',termoSalvar)
 		.subscribe(
 			resultado => {
-				console.log(resultado)
+				this._snackBar.open('Salvo com sucesso!', 'ok')
 			},
 			erro => {
 				if(erro.status >= 400) {
-					console.log(erro);
+					this._snackBar.open('Erro ao Salvar!', 'ok')
 				}
 			}
 		);

@@ -1,16 +1,13 @@
 export class TermoColeta {
-    id!: number;
     pessoaFiscalizada!: number;
     numeroCpfCnpj!: string;
     nomeProdutor!: string;
     nomeFantasia!: string;
-    enderecoFiscalizado!: number;
+    enderecoFiscalizado!: any;
     uadResponsavel!: number;
     nrTermoColeta!: string;
     dataTermo!: Date;
-    acaoTermo!: string;
-    usuarioAtualizou!: number;
+    usuarioAtualizou!: any;
     atualizacao!: Date;
-    
   }
   

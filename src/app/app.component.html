@@ -3,7 +3,7 @@
         <header>
             <div>
                 <img class="card-img-top" src="/assets/mini.jpg">
-                <mat-slide-toggle [checked]="isDarkTheme | async">Tema Escuro</mat-slide-toggle>
+                <mat-slide-toggle [checked]="isDarkTheme | async" (change)="toggleDarkTheme($event.checked)">Tema Escuro</mat-slide-toggle>
             </div>
             <div>
                 <h1>Termo de Coleta</h1>
@@ -27,7 +27,7 @@
     </div>
 		<main class="main">
 			<mat-drawer-container class="example-container">
-				<!-- <mat-drawer #drawer opened="true" class="example-sidenav" mode="side">
+				<mat-drawer #drawer opened="true" class="example-sidenav" mode="side">
 					<main>
 						<mat-expansion-panel style="padding: 0 24px;">
 							<mat-expansion-panel-header>
@@ -54,16 +54,16 @@
 							</div>
 						</mat-expansion-panel>
 					</main>
-				</mat-drawer> -->
-				<div [ngSwitch]="clickedTab">
+				</mat-drawer>
+				<div [ngSwitch]="clickedTab" style="height: 100%;">
 					<aside  class="example-sidenav-content" *ngSwitchCase="'Termo de Coleta'">
 						<app-coordenadoria></app-coordenadoria>
 					</aside>
-					<aside  class="example-sidenav-content" *ngSwitchCase="'cliente'">
+					<aside  class="example-sidenav-content" *ngSwitchCase="'Resultado da Análise'">
 						1
 					</aside>
-					<aside  class="example-sidenav-content" *ngSwitchCase="'Entrada no Laboratório'">
-						2
+					<aside  class="example-sidenav-content" *ngSwitchCase="'Registro de Amostra'">
+						<app-registro-amostra></app-registro-amostra>
 					</aside>
 					<aside  class="example-sidenav-content" *ngSwitchCase="'Grupo de Análise'">
 						3

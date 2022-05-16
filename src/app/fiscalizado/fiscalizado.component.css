@@ -1,5 +1,4 @@
 
-
 .mat-radio-button ~ .mat-radio-button {
     margin-left: 16px;
     
@@ -16,8 +15,6 @@
   }
 
   .example-form {
-    min-width: 1000px;
-    max-width: 1600px;
     width: 100%;
   }
   
